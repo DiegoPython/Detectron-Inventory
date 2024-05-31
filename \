@@ -43,7 +43,7 @@ class Detector:
             instances = predictions['instances']
             classes = instances.pred_classes.cpu().numpy()
             class_names = MetadataCatalog.get(self.cfg.DATASETS.TRAIN[0]).thing_classes
-            counts = defaultdict(int)
+            counts = defaultdict()
 
             for c in classes:
                 class_name = class_names[c]
@@ -60,8 +60,8 @@ class Detector:
             viz = Visualizer(image[:,:,::-1], MetadataCatalog.get(self.cfg.DATASETS.TRAIN[0]))
             output = viz.draw_panoptic_seg_predictions(predictions.to('cpu'), segmentInfo)
 
-        #cv2.imshow("Result", output.get_image()[:,:,::-1])
-        #cv2.waitKey(0)
+        cv2.imshow("Result", output.get_image()[:,:,::-1])
+        cv2.waitKey(0)
 
 
     def onCamera(self, cameraIndex=0, width=640, height=480):
