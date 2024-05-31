@@ -1,6 +1,9 @@
 from Detector import *
 
-detector = Detector(model_type="LVIS")
+def main():
+    detector = Detector(model_type="LVIS")
+    detector.onCamera()
 
-# detector.onImage("images/food_sample.jpg")
-# detector.onVideo("vid_crop.mp4")
+
+if __name__ == "__main__":
+    main()
