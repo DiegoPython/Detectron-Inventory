@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 from collections import defaultdict
+import uuid
+
+OUTPUT_FOLDER = "./detections/"
 
 class Detector:
     def __init__(self, model_type="OD"):
@@ -43,7 +46,7 @@ class Detector:
             instances = predictions['instances']
             classes = instances.pred_classes.cpu().numpy()
             class_names = MetadataCatalog.get(self.cfg.DATASETS.TRAIN[0]).thing_classes
-            counts = dict()
+            counts = defaultdict(int)
 
             for c in classes:
                 class_name = class_names[c]
@@ -62,6 +65,11 @@ class Detector:
 
         cv2.imshow("Result", output.get_image()[:,:,::-1])
         cv2.waitKey(0)
+
+        output_image = output.get_image()[:,:,::-1]
+        random_id = uuid.uuid4()
+        output_path = f"{OUTPUT_FOLDER}{random_id}.jpg"
+        cv2.imwrite(output_path, output_image)
 
 
     def onCamera(self, cameraIndex=0, width=640, height=480):
